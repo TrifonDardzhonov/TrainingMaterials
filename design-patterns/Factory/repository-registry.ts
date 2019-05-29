@@ -10,7 +10,11 @@ enum RepositoryEnum {
     GooRepository
 }
 
-class FooRepository implements Repository {
+interface IFooRepository {
+    doFoo();
+}
+
+class FooRepository implements Repository, IFooRepository {
     constructor(private dbConnection: any) { }
     public static getType(): RepositoryEnum {
         return RepositoryEnum.FooRepository;
@@ -35,7 +39,7 @@ class RepositoryRegistry {
         this.repositories = new Map<RepositoryEnum, object>();
     }
 
-    public instanceOf<T extends Repository>(repositoryType: RepositoryBuilder<T>): T {
+    public instanceOf<T>(repositoryType: T): T {
         const type = repositoryType.getType();
         let repository = <T>this.repositories.get(type);
 
@@ -61,7 +65,7 @@ class DummyService {
     constructor(private registry: RepositoryRegistry) { }
 
     public doSomethingDummy(): void {
-        this.registry.instanceOf(FooRepository).doFoo();
+        this.registry.instanceOf(IFoo).doFoo();
     }
 
     public doSomethingDumber(): void {
