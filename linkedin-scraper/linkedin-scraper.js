@@ -1,9 +1,9 @@
-var csv = require('fast-csv');
 const fs = require('fs');
+var csv = require('fast-csv');
 
 var pathToResultFile = 'db' + (+new Date) + '.csv';
 
-var csvStream = csv.createWriteStream({
+var csvStream = csv.format({
     headers: true
 });
 writableStream = fs.createWriteStream(pathToResultFile);
